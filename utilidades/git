@@ -7,6 +7,9 @@ git remote -v
 # Ignorar archivos
 touch .gitignore
 
+# resetea git add .
+git reset
+
 assets/*
 !assets/.gitignore
 themes/classic/views/

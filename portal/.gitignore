@@ -23,8 +23,8 @@ phpunit.phar
 # local phpunit config
 /phpunit.xml
 
-backend/assets/*
+backend/web/assets/*
 backend/runtime/*
-frontend/assets/*
+frontend/web/assets/*
 frontend/runtime/*
 console/runtime/*
