@@ -1,8 +1,15 @@
 # Set a new remote
 git remote add origin https://github.com/alejandrososa/portalja.git
 
+# Elimina remote
+git remote rm origin
+
 # Verifica repositorio remoto
 git remote -v
+
+git push origin master
+# Pushes the changes in your local repository up to the remote repository you specified as the origin
+
 
 # Ignorar archivos
 touch .gitignore
