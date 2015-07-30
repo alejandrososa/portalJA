@@ -9,19 +9,21 @@ use yii\helpers\Html;
 
 $this->title = $name;
 ?>
-<div class="site-error">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<!-- BEGIN .full-block -->
+<div class="full-block">
 
-    <div class="alert alert-danger">
-        <?= nl2br(Html::encode($message)) ?>
-    </div>
+	<div class="ot-panel-block panel-light">
+		<div class="error-big-message">
+			
+			<h1>UPS... ¿Dónde te has metido? </h1>
+			<h2><?= Html::encode($this->title) ?></h2>
 
-    <p>
-        The above error occurred while the Web server was processing your request.
-    </p>
-    <p>
-        Please contact us if you think this is a server error. Thank you.
-    </p>
+			<p><?= nl2br(Html::encode($message)) ?></p>
+			<a href="index.html"><i class="fa fa-home"></i>back to homepage</a>
 
+		</div>
+	</div>
+
+<!-- END .full-block -->
 </div>
