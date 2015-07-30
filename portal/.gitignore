@@ -28,3 +28,7 @@ backend/runtime/*
 frontend/web/assets/*
 frontend/runtime/*
 console/runtime/*
+
+# Imagenes demo
+frontend/web/images/photos/*
+frontend/web/images/demo/
