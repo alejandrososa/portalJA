@@ -24,6 +24,7 @@ return [
             //'scriptUrl'=>'/backend/index.php',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'baseUrl' => '/admin/',
         ],
         //
         'user' => [

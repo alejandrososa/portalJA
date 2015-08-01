@@ -28,6 +28,20 @@ themes/classic/views/
 git config core.autocrlf true
 
 
+
+
+############## MERGE #################
+git status
+
+git commit -a -m 'finished the new footer [issue 53]'
+
+git checkout master
+git branch -d iss53
+
+git mergetool
+git merge NOMBRE_RAMA
+
+
 #######
 #GITHUB
 #######
