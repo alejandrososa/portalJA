@@ -1,0 +1,6 @@
+cd C:/xampp/htdocs/yiiportalja/portal
+
+yii migrate/create create_posts_table
+
+yii migrate/down (1,2,n..)
+yii migrate/up

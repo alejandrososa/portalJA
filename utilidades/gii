@@ -1,0 +1,4 @@
+Model Class: 			common\models\Artist
+Search Model Class: 	app\models\ArtistSearch
+Controller Class: 		app\controllers\ArtistController
+Base Controller Class: yii\web\Controller
