@@ -103,7 +103,9 @@ public function up()
             'enlace' => Schema::TYPE_STRING . ' NOT NULL DEFAULT "#"',
             'tipo_enlace' => " ENUM('interno','externo','_top') NOT NULL DEFAULT 'interno'",
             'target' => " ENUM('_self','_blank','_top') NOT NULL DEFAULT '_self'",
-            'padre' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0'
+            'padre' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
+            //'izq' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
+            //'der' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0'
         ], $tableOptions);
         
         //$this->addForeignKey('fk_post_postmeta', "{{%paginas}}", 'id_pag', '{{%postmeta}}', 'id_postmeta', 'CASCADE', 'RESTRICT');
@@ -112,6 +114,67 @@ public function up()
         //$this->addForeignKey('fk_post_autor', "{{%posts}}", 'id', '{{%user}}', 'id', 'NO ACTION', 'NO ACTION');
         //$this->addForeignKey('fk_post_seourl', "{{%posts}}", 'id', '{{%seo_urls}}', 'id');//, 'CASCADE', 'NO ACTION');
         
+        
+        /**
+         * Funciones
+         */
+        $this->execute("DROP FUNCTION IF EXISTS getHijosMenu;
+                        CREATE FUNCTION getHijosMenu (GivenID INT) RETURNS varchar(1024) CHARSET latin1
+                        DETERMINISTIC
+                        BEGIN
+                        
+                            DECLARE rv,q,queue,queue_children VARCHAR(1024);
+                            DECLARE queue_length,front_id,pos INT;                    
+                            SET rv = '';
+                            SET queue = GivenID;
+                            SET queue_length = 1;
+                        
+                            WHILE queue_length > 0 DO
+                                SET front_id = FORMAT(queue,0);
+                                IF queue_length = 1 THEN
+                                    SET queue = '';
+                                ELSE
+                                    SET pos = LOCATE(',',queue) + 1;
+                                    SET q = SUBSTR(queue,pos);
+                                    SET queue = q;
+                                END IF;
+                                SET queue_length = queue_length - 1;                    
+                                SELECT IFNULL(qc,'') INTO queue_children
+                                FROM (SELECT GROUP_CONCAT(id_menu) qc
+                                FROM menu WHERE padre = front_id) A;                    
+                                IF LENGTH(queue_children) = 0 THEN
+                                    IF LENGTH(queue) = 0 THEN
+                                        SET queue_length = 0;
+                                    END IF;
+                                ELSE
+                                    IF LENGTH(rv) = 0 THEN
+                                        SET rv = queue_children;
+                                    ELSE
+                                        SET rv = CONCAT(rv,',',queue_children);
+                                    END IF;
+                                    IF LENGTH(queue) = 0 THEN
+                                        SET queue = queue_children;
+                                    ELSE
+                                        SET queue = CONCAT(queue,',',queue_children);
+                                    END IF;
+                                    SET queue_length = LENGTH(queue) - LENGTH(REPLACE(queue,',','')) + 1;
+                                END IF;
+                            END WHILE;                    
+                            RETURN rv;                    
+                        END");
+        
+        /**
+         * VISTAS
+         */
+        $this->execute("CREATE VIEW v_MenuDetallado AS 
+                        SELECT id_menu, nombre, clase, enlace, tipo_enlace, target, padre, getHijosMenu(id_menu) as hijos FROM menu;
+            ");
+        
+        
+                    
+        /**
+         * INSERTS
+         */
         $this->insert('{{%categorias}}', [
             'id_categoria' => 1,
             'slug' => 'sin-categoria',
@@ -120,6 +183,60 @@ public function up()
             'padre' => 0,
             'count' => 0,
         ]);
+        
+        $this->insert('{{%paginas}}', [
+            'id_pag'=> 1, 
+            'titulo'=> 'Demo',
+            'contenido'=> 'Contenido demo', 
+            'meta_id'=> 1,
+            'imagen_id'=> 1,
+            'estado'=> 'publicado',
+            'autor_id'=> 1,
+            'slug'=> 'demo',
+            'meta_keywords'=> 'key1,key2,key3',
+            'meta_description'=> 'Descripción demo',
+            'meta_code_css'=> '',
+            'meta_code_js'=> '',
+            'creado'=> 20150621,
+            'actualizado'=> 20150621
+        ]);
+        
+        $this->insert('{{%menu}}', [
+            'id_menu'=> 1,
+            'nombre'=>'Portada', 
+            'clase'=>'',
+            'enlace'=>'/', 
+            'tipo_enlace'=>'interno', 
+            'target'=>'_self', 
+            'padre'=>0            
+        ]);
+        $this->insert('{{%menu}}', [
+             'id_menu'=> 2,
+             'nombre'=>'Demo',
+             'clase'=>'',
+             'enlace'=>'demo',
+             'tipo_enlace'=>'interno',
+             'target'=>'_self',
+             'padre'=>1
+         ]);
+        $this->insert('{{%menu}}', [
+             'id_menu'=> 3,
+             'nombre'=>'Jovenes',
+             'clase'=>'',
+             'enlace'=>'demo',
+             'tipo_enlace'=>'interno',
+             'target'=>'_self',
+             'padre'=>0
+         ]);
+        $this->insert('{{%menu}}', [
+             'id_menu'=> 4,
+             'nombre'=>'Sub nivel',
+             'clase'=>'',
+             'enlace'=>'subdemo',
+             'tipo_enlace'=>'interno',
+             'target'=>'_self',
+             'padre'=>1
+         ]);
 
     }
 
@@ -135,6 +252,13 @@ public function up()
         $this->dropTable('{{%media}}');
         $this->dropTable('{{%seo_urls}}'); 
         $this->dropTable('{{%menu}}');
+        
+        //vistas
+        $this->execute('DROP VIEW IF EXISTS v_MenuDetallado');
+        
+        //funciones
+        $this->execute('DROP FUNCTION IF EXISTS getHijosMenu');
+        
     }
     
     /*

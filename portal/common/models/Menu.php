@@ -54,6 +54,10 @@ class Menu extends \yii\db\ActiveRecord
         ];
     }
     
+    /**
+     * Devuelve todos los enlaces
+     * @return array enlaces
+     */
     public static function getItems()
     {
         $items = [];
@@ -62,5 +66,21 @@ class Menu extends \yii\db\ActiveRecord
             $items[] = ['label' => $model->nombre, 'url' => $model->enlace];
         }
         return $items;
+    }
+    /**
+     * Comprueba si enlace tiene hijos
+     * @param int $id
+     * @return bool
+     */
+    public static function tieneHijosItems($id){
+        $resultado = false;
+       
+        if(!empty($id) && is_int($id)){
+            $models = Menu::find()->all();
+            foreach($models as $model) {
+                $items[] = ['label' => $model->nombre, 'url' => $model->enlace];
+            }
+        }
+        return $resultado;
     }
 }
