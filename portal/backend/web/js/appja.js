@@ -58,6 +58,7 @@ if (!console.log) {console.log = function() {};}
         	select_tipo.change(function (event) {
                 event.preventDefault();
                 if(select_tipo.val() === 'interno'){
+                	select_target.find('[value="_self"]').prop('selected', true)
                 	div_paginas.show();
                 	div_enlace.hide();
                 }else{

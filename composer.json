@@ -1,0 +1,6 @@
+{
+    "require": {
+        "kartik-v/yii2-nav-x": "*",
+        "kartik-v/yii2-widgets": "*"
+    }
+}

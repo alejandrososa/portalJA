@@ -1,15 +1,13 @@
 <?php
 
-namespace backend\controllers;
+namespace frontend\controllers;
 
 use Yii;
 use common\models\Menu;
-use common\models\Paginas;
 use backend\models\MenuBuscador;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\base\Object;
 
 /**
  * MenuController implements the CRUD actions for Menu model.
@@ -60,33 +58,15 @@ class MenuController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCrear()
+    public function actionCreate()
     {
         $model = new Menu();
-        $modelPaginas = new Paginas();
-       
-        if ($model->load(Yii::$app->request->post())) {
-            
-            $post = Yii::$app->request->post('Menu');
-            
-            $model->nombre  = $post['nombre'];
-            $model->clase   = !empty($post['clase']) ? $post['clase'] : '';
-            $model->enlace  = !empty($post['url']) ? $post['url'] : '#';
-            $model->target  = !empty($post['target']) ? $post['target'] : '_self';
-            $model->padre   = !empty($post['padre']) ? $post['padre'] : 0;
-            /*
-            echo '<pre>';
-            print_r($post);
-            echo '</pre>';
-            die();
-            */
-            if($model->save()){
-                return $this->redirect(['view', 'id' => $model->id_menu]);
-            }
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id_menu]);
         } else {
-            return $this->render('crear', [
+            return $this->render('create', [
                 'model' => $model,
-                'modPaginas' => $modelPaginas
             ]);
         }
     }
@@ -100,14 +80,12 @@ class MenuController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $modelPaginas = new Paginas();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_menu]);
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'modPaginas' => $modelPaginas
             ]);
         }
     }

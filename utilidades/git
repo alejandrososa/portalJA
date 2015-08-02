@@ -28,6 +28,11 @@ themes/classic/views/
 git config core.autocrlf true
 
 
+############## REVERTIR CAMBIOS #################
+
+git reset HEAD --hard
+git clean -f
+git pull origin master
 
 
 ############## MERGE #################

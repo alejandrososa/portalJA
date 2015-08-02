@@ -6,6 +6,9 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
             ],
+        'menu' => [
+            'class' => 'common\components\Navegacion',
+        ],
         'i18n' => [
             'translations' => [
                 'frontend*' => [

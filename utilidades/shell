@@ -1,3 +1,8 @@
 ## Translate 
 yii message/config @app/config/i18n.php
 yii message/extract @app/config/i18n.php
+
+## KARTIK
+composer require kartik-v/yii2-widgets "*"
+composer require kartik-v/yii2-nav-x "*"
+composer update

@@ -6,6 +6,8 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use frontend\widgets\Alert;
 
+use kartik\nav\NavX;
+
 /* @var $this \yii\web\View */
 /* @var $content string */
 
@@ -25,12 +27,16 @@ AppAsset::register($this);
     <?php $this->beginBody() ?>
     <!-- BEGIN .boxed.active -->
 	<div class="boxed">
+	
+	
+	
         <?php
-            /*NavBar::begin([
+        /*
+            NavBar::begin([
                 'brandLabel' => 'JA',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
-                    'class' => 'navbar-inverse navbar-fixed-top',
+                    //'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
             $menuItems = [
@@ -49,11 +55,25 @@ AppAsset::register($this);
                 ];
             }
             echo Nav::widget([
-                'options' => ['class' => 'navbar-nav navbar-right'],
+                //'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => $menuItems,
             ]);
             NavBar::end();*/
         ?>
+        
+        
+        <?php 
+        
+        
+        
+       
+        
+        
+       
+        
+        ?>
+        
+        
         <!-- BEGIN .header -->
 			<header class="header">
 				<!-- 
@@ -166,6 +186,20 @@ AppAsset::register($this);
 									</div>
 								</div>
 							</div>
+							
+							 <?php
+							 
+							 // Usage with bootstrap nav pills.
+							 $items = Yii::$app->menu->Principal();
+							 echo NavX::widget([
+							     'options'=>['class' => 'load-responsive',
+                                             'rel'=> 'Main Menu'],
+							     'items' => $items
+							 ]);
+                             
+                            ?>
+							
+							
 							<ul class="load-responsive" rel="Main Menu">
 								<li class="ot-showmenu"><a href="#">Menu<span class="cmn-toggle-switch cmn-toggle-switch__htx active"><span>toggle menu</span></span></a></li>
 								<li><a href="index.html" style="border-bottom: 2px solid #45b29d;"><span>Home<span class="m-d-arrow"></span></span></a>

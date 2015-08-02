@@ -53,4 +53,14 @@ class Menu extends \yii\db\ActiveRecord
             'padre' => Yii::t('app', 'Padre'),
         ];
     }
+    
+    public static function getItems()
+    {
+        $items = [];
+        $models = Menu::find()->all();
+        foreach($models as $model) {
+            $items[] = ['label' => $model->nombre, 'url' => $model->enlace];
+        }
+        return $items;
+    }
 }
