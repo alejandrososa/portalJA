@@ -20,4 +20,11 @@ class Navegacion extends Component {
         
         return $this->items;
     }
+    
+    public function prueba() {
+        $this->model = new Menu();
+        $this->items = $this->model->getMenuDetallado('2');
+    
+        return $this->items;
+    }
 }

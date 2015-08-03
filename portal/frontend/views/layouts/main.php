@@ -8,6 +8,10 @@ use frontend\widgets\Alert;
 
 use kartik\nav\NavX;
 
+
+use common\models\Menu;
+use yii\base\Object;
+
 /* @var $this \yii\web\View */
 /* @var $content string */
 
@@ -196,6 +200,14 @@ AppAsset::register($this);
                                              'rel'=> 'Main Menu'],
 							     'items' => $items
 							 ]);
+							 
+							 $mod = new Menu();
+							 $demo = $mod->tieneHijosItems(1) ? 'si':'no';
+							 echo '<pre>';
+						     //print_r(Yii::$app->menu->prueba());
+						     print_r($demo);
+						     echo '</pre>';
+							 ///die();
                              
                             ?>
 							

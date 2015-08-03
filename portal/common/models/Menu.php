@@ -3,6 +3,8 @@
 namespace common\models;
 
 use Yii;
+use yii\db\Query;
+
 
 /**
  * This is the model class for table "menu".
@@ -17,6 +19,7 @@ use Yii;
  */
 class Menu extends \yii\db\ActiveRecord
 {
+    
     /**
      * @inheritdoc
      */
@@ -55,6 +58,23 @@ class Menu extends \yii\db\ActiveRecord
     }
     
     /**
+     * METODOS PRIVADOS
+     */
+    public function getMenuDetallado($where = null) {
+        $menu = array();
+        $sql = 'SELECT * FROM v_menudetallado';
+        
+        if(!empty($where)){
+            $sql .= ' where id_menu ='.$where;
+        }
+    
+        $cnx = Yii::$app->db;
+        $menu = $cnx->createCommand($sql)->queryAll();    
+        return $menu;
+    }
+    
+    
+    /**
      * Devuelve todos los enlaces
      * @return array enlaces
      */
@@ -72,15 +92,15 @@ class Menu extends \yii\db\ActiveRecord
      * @param int $id
      * @return bool
      */
-    public static function tieneHijosItems($id){
+    public function tieneHijosItems($id){
         $resultado = false;
-       
+        $menu = array();
         if(!empty($id) && is_int($id)){
-            $models = Menu::find()->all();
-            foreach($models as $model) {
-                $items[] = ['label' => $model->nombre, 'url' => $model->enlace];
+            $menu = self::getMenuDetallado($id);
+            foreach ($menu as $m){
+                $resultado = isset($m['hijos']) && $m['hijos'] != '' ? true : false;
             }
-        }
+        }        
         return $resultado;
     }
 }
