@@ -62,7 +62,7 @@ class Menu extends \yii\db\ActiveRecord
      */
     public function getMenuDetallado($where = null) {
         $menu = array();
-        $sql = 'SELECT * FROM v_menudetallado';
+        $sql = 'SELECT * FROM v_getmenudetallado';
         
         if(!empty($where)){
             $sql .= ' where id_menu ='.$where;
@@ -70,6 +70,14 @@ class Menu extends \yii\db\ActiveRecord
     
         $cnx = Yii::$app->db;
         $menu = $cnx->createCommand($sql)->queryAll();    
+        return $menu;
+    }
+    
+    public function getMenuJerarquia() {
+        $menu = array();
+        $sql = 'call sp_getMenuJerarquia();';
+        $cnx = Yii::$app->db;
+        $menu = $cnx->createCommand($sql)->queryAll();
         return $menu;
     }
     
@@ -81,11 +89,11 @@ class Menu extends \yii\db\ActiveRecord
     public static function getItems()
     {
         $items = [];
-        $models = Menu::find()->all();
-        foreach($models as $model) {
-            $items[] = ['label' => $model->nombre, 'url' => $model->enlace];
-        }
-        return $items;
+        $subitems1 = [];
+        $subitems2 = [];
+        $hasN1 = $hasN2 = $hasN3 = false;
+        $models = Menu::getMenuJerarquia(); //find()->all();
+        return $models;
     }
     /**
      * Comprueba si enlace tiene hijos
@@ -95,7 +103,7 @@ class Menu extends \yii\db\ActiveRecord
     public function tieneHijosItems($id){
         $resultado = false;
         $menu = array();
-        if(!empty($id) && is_int($id)){
+        if(!empty($id)){
             $menu = self::getMenuDetallado($id);
             foreach ($menu as $m){
                 $resultado = isset($m['hijos']) && $m['hijos'] != '' ? true : false;

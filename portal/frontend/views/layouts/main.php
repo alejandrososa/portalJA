@@ -194,18 +194,19 @@ AppAsset::register($this);
 							 <?php
 							 
 							 // Usage with bootstrap nav pills.
-							 $items = Yii::$app->menu->Principal();
+							 /*$items = Yii::$app->menu->Principal();
 							 echo NavX::widget([
 							     'options'=>['class' => 'load-responsive',
                                              'rel'=> 'Main Menu'],
 							     'items' => $items
 							 ]);
-							 
+							 */
 							 $mod = new Menu();
-							 $demo = $mod->tieneHijosItems(1) ? 'si':'no';
+							 //$demo = $mod->tieneHijosItems(1) ? 'si':'no';/
+							 //$demo = $mod->getMenuJerarquia();
 							 echo '<pre>';
 						     //print_r(Yii::$app->menu->prueba());
-						     print_r($demo);
+						     // print_r($demo);
 						     echo '</pre>';
 							 ///die();
                              
@@ -214,19 +215,9 @@ AppAsset::register($this);
 							
 							<ul class="load-responsive" rel="Main Menu">
 								<li class="ot-showmenu"><a href="#">Menu<span class="cmn-toggle-switch cmn-toggle-switch__htx active"><span>toggle menu</span></span></a></li>
-								<li><a href="index.html" style="border-bottom: 2px solid #45b29d;"><span>Home<span class="m-d-arrow"></span></span></a>
-									<ul class="sub-menu">
-										<li><a href="blog.html">Blog page</a></li>
-										<li><a href="category.html">Category page</a></li>
-										<li><a href="post.html"><span>Single post page</span></a>
-											<ul class="sub-menu">
-												<li><a href="post-no-photo.html">Post with no photo</a></li>
-												<li><a href="post-no-comments.html">Post with no comments</a></li>
-												<li><a href="post-left.html">Post Sidebar on left</a></li>
-											</ul>
-										</li>
-									</ul>
-								</li>
+								<?php Yii::$app->menu->Principal(); ?>
+								
+								
 								<li><a href="features.html" style="border-bottom: 2px solid #efc94c;"><span>Features<span class="m-d-arrow"></span></span></a>
 									<ul>
 										<li><a href="shortcodes.html">Shortcodes</a></li>

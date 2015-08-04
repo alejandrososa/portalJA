@@ -104,7 +104,9 @@ class m150803_124043_vistas extends Migration
         $this->execute("DROP PROCEDURE IF EXISTS sp_getMenuJerarquia;
                         CREATE PROCEDURE sp_getMenuJerarquia()
                         BEGIN
-                        	SELECT  CONCAT(REPEAT('', level - 1), CAST(mj.id_menu AS CHAR)) as id_menu, md.nombre, mj.padre, md.hijos,  mj.level as nivel
+                        	SELECT  CONCAT(REPEAT('', level - 1), CAST(mj.id_menu AS CHAR)) as id_menu, 
+                                md.nombre, md.enlace, md.clase, md.tipo_enlace, md.target, 
+                                mj.padre, md.hijos,  mj.level as nivel
                         	FROM    (
                         			SELECT  id_menu, padre, IF(ancestry, @cl := @cl + 1, level + @cl) AS level
                         			FROM    (

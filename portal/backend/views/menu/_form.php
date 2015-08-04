@@ -37,7 +37,10 @@ $paginas = $modPaginas->find()->All();
 
     <?= $form->field($model, 'clase')->textInput(['maxlength' => true]) ?>
     
-    <?= $form->field($model, 'padre')->textInput() ?>
+    
+    <?= $form->field($model, 'padre')->dropDownList(
+        ArrayHelper::map($model->find()->all(), 'id_menu', 'nombre'),
+        ['prompt' => 'Elegir enlace padre']) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
